@@ -1,0 +1,47 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 20px 20px; 
+    min-height: 100vh;
+    background-color: var(--background); /* Fondo del home usando la variable de background */
+}
+
+.navbar {
+    background-color: var(--button-color-secondary); /* Usando el color secundario para la barra de navegación */
+    color: var(--white-text); /* Color del texto de la navbar */
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    box-shadow: 0 4px 12px var(--title-shadow); /* Sombra del título con la variable definida */
+    z-index: 1000;
+    display: flex; /* Asegura que el contenedor use flexbox */
+    justify-content: center; /* Centra los botones horizontalmente */
+}
+
+.navbar__container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Alinea verticalmente los botones */
+    gap: 20px;
+    flex-wrap: wrap; /* Permite que los botones se envuelvan si es necesario */
+}
+
+.navbar button {
+    background: transparent; /* Quita el color de fondo del botón */
+    color: var(--text); /* Ajusta el color del texto */
+    border: none; /* Elimina el borde del botón */
+    text-shadow: none; /* Elimina el brillo o sombra del texto */
+    font-size: 16px; /* Ajusta el tamaño de fuente si es necesario */
+    padding: 10px 20px; /* Ajusta el padding para los botones */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: color 0.3s ease; /* Añade una transición suave para el color */
+}
+
+.navbar button:hover {
+    color: var(--white-text); /* Cambia el color del texto al pasar el cursor */
+    background-color: var(--background-muted); /* Añade un fondo semi-transparente para que el texto sea legible */
+    text-decoration: underline; /* Opcional: subraya el texto en hover */
+}
