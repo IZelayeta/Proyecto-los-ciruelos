@@ -46,13 +46,19 @@
     </div>
   </div>
   
-  <!-- Menú de opciones -->
-  <div *ngIf="showOptionsMenu" [ngStyle]="{ top: optionsMenuPosition.top + 'px', left: optionsMenuPosition.left + 'px' }" class="options-menu">
-    <div class="option" (click)="selectOption(90)">1h 30min</div>
-    <div class="option" (click)="selectOption(120)">2h 00min</div>
-    <div class="option" (click)="selectOption(150)">2h 30min</div>
+<!-- Menú de opciones -->
+<div *ngIf="showOptionsMenu" [ngStyle]="{'top.px': optionsMenuPosition.top, 'left.px': optionsMenuPosition.left}" class="options-menu">
+  <div *ngFor="let duration of [1, 1.5, 2, 2.5]">
+    <button (click)="selectOption(duration)">
+      {{ duration }} hrs - ${{ calculatePrice(duration) }}
+    </button>
   </div>
-  
+        <!-- Botón de continuar dentro del menú de opciones -->
+    <div *ngIf="showContinueButton" class="text-center mt-2">
+      <button class="btn btn-primary" (click)="redirectToTicket()">Continuar</button>
+    </div>
+</div>
+
   <!-- Tooltip con información -->
   <div
     *ngIf="tooltipVisible"
