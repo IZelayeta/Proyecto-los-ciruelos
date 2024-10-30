@@ -1,82 +1,132 @@
 <div class="form">
   <div class="form__container">
-    <!-- Botón para volver a la página de login -->
     <button mat-icon-button class="go-back-button" (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
     </button>
 
     <h1>Registrarse</h1>
 
-    <form [formGroup]="form" (ngSubmit)="signUp()">
+    <app-button-providers [isLogin]="false" (onGoogleSignIn)="onGoogleSignIn()"></app-button-providers>
+
+    <form [formGroup]="form" (ngSubmit)="signUp()" novalidate>
+
       <mat-form-field appearance="fill" class="custom-field">
         <mat-label>Nombre</mat-label>
         <input matInput formControlName="names" />
-        <mat-error class="error-text" *ngIf="form.controls['names'].hasError('required')">
-          Nombre es obligatorio
+        <mat-error *ngIf="form.get('names')?.touched && form.get('names')?.hasError('required')">
+          Nombre es obligatorio.
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="custom-field">
         <mat-label>Apellido</mat-label>
         <input matInput formControlName="lastName" />
-        <mat-error class="error-text" *ngIf="form.controls['lastName'].hasError('required')">
-          Apellido es obligatorio
+        <mat-error *ngIf="form.get('lastName')?.touched && form.get('lastName')?.hasError('required')">
+          Apellido es obligatorio.
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="custom-field">
         <mat-label>Correo electrónico</mat-label>
         <input matInput formControlName="email" />
-        <mat-error class="error-text" *ngIf="isEmailValid">{{ isEmailValid }}</mat-error>
+        <mat-error *ngIf="form.get('email')?.touched">
+          <ng-container *ngIf="form.get('email')?.hasError('required')">
+            Correo electrónico es obligatorio.
+          </ng-container>
+          <ng-container *ngIf="form.get('email')?.hasError('pattern')">
+            Correo electrónico inválido.
+          </ng-container>
+          <ng-container *ngIf="form.get('email')?.hasError('emailTaken')">
+            Correo electrónico ya registrado.
+          </ng-container>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="custom-field">
         <mat-label>Contraseña</mat-label>
-        <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" />
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          formControlName="password"
+          (blur)="checkPasswordMatch()"
+        />
         <button
           mat-icon-button
           matSuffix
-          (click)="hide = !hide"
-          [attr.aria-label]="hide ? 'Mostrar contraseña' : 'Ocultar contraseña'"
-          [attr.aria-pressed]="!hide"
-          class="password-toggle-button"
+          (click)="toggleHidePassword()"
+          [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+          type="button"
         >
-          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
-        <mat-error class="error-text" *ngIf="form.controls['password'].hasError('required')">
-          Contraseña es obligatoria
+        <mat-error *ngIf="form.get('password')?.touched">
+          <ng-container *ngIf="form.get('password')?.hasError('required')">
+            Contraseña es obligatoria.
+          </ng-container>
+          <ng-container *ngIf="form.get('password')?.hasError('minlength')">
+            Contraseña debe tener al menos 6 caracteres.
+          </ng-container>
+          <ng-container *ngIf="form.get('password')?.hasError('pattern')">
+            Contraseña debe incluir al menos una letra mayúscula.
+          </ng-container>
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="custom-field">
-        <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="phone" />
-        <mat-error class="error-text" *ngIf="form.controls['phone'].hasError('pattern')">
-          Número de teléfono inválido
+        <mat-label>Confirmar contraseña</mat-label>
+        <input
+          matInput
+          [type]="hideConfirmPassword ? 'password' : 'text'"
+          formControlName="confirmPassword"
+          (blur)="checkPasswordMatch()"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="toggleHideConfirmPassword()"
+          [attr.aria-label]="hideConfirmPassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+          type="button"
+        >
+          <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('confirmPassword')?.touched">
+          <ng-container *ngIf="form.get('confirmPassword')?.hasError('required')">
+            Confirmar contraseña es obligatorio.
+          </ng-container>
+          <ng-container *ngIf="form.get('confirmPassword')?.hasError('minlength')">
+            Confirmar contraseña debe tener al menos 6 caracteres.
+          </ng-container>
         </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="custom-field">
-        <mat-label>Categoría de Jugador</mat-label>
-        <input matInput formControlName="playerCategory" />
-        <mat-error class="error-text" *ngIf="form.controls['playerCategory'].hasError('required')">
-          Categoría de jugador es obligatoria
+        <mat-error *ngIf="(passwordMismatch && form.get('confirmPassword')?.touched) || !isRegisterButtonEnabled">
+          Las contraseñas no coinciden.
         </mat-error>
-      </mat-form-field>
+        
 
-      <div class="button-container">
-        <button mat-flat-button color="primary" type="submit">Registrarse</button>
+    </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || !passwordsMatch">Registrarse</button>
+
+      <ng-container *ngIf="passwordMismatch" class="error-message">
+        <mat-error *ngIf="(passwordMismatch && form.get('confirmPassword')?.touched) || !isRegisterButtonEnabled">
+          Las contraseñas no coinciden.
+        </mat-error>
+      </ng-container>
+      
+      
+      <div *ngIf="errorMessages.length > 0" class="error-messages">
+        <ng-container *ngFor="let error of errorMessages">
+          <div>{{ error }}</div>
+        </ng-container>
       </div>
-    </form>
 
-    <hr class="divider" />
+
+    </form>
 
     <div class="text-center">
       ¿Ya tienes una cuenta? 
-      <div class="iniciar sesion">
-        <a routerLink="/login">iniciar sesion </a>
+      <div class="register">
+        <a routerLink="/login">Iniciar Sesion</a>
       </div>
 
-    </div>
   </div>
 </div>

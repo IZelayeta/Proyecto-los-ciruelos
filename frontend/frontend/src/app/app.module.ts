@@ -6,7 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { ToastrModule } from 'ngx-toastr';
 
 // Importaciones de Angular Material
 import { MatButtonModule } from '@angular/material/button';
@@ -22,14 +23,16 @@ import { MercadopagoComponent } from './components/shared/mercadopago/mercadopag
 import { CambiarContraseniaComponent } from './components/shared/login/cambiar_contrasenia/cambiar-contrasenia.component';
 import { LoginComponent } from './components/shared/login/login.component';
 import { RegisterComponent } from './components/shared/register/register.component';
-import { ButtonProviders } from './components/shared/login/cambiar_contrasenia/button_provider/button-providers.component'
+import { ButtonProviders } from './components/shared/login/cambiar_contrasenia/button_provider/button_providers.component'
 import { HomeComponent } from './components/home/home.component';
+import { CalendarioReservaComponent } from './components/shared/calendario_reserva/calendario_reserva.component';
+import { PostRegisterComponent } from './components/shared/register/postregister/postregister.component';
 
 // Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { CalendarioReservaComponent } from './components/shared/calendario_reserva/calendario_reserva.component';
+
 
 
 
@@ -41,8 +44,9 @@ import { CalendarioReservaComponent } from './components/shared/calendario_reser
     LoginComponent,
     RegisterComponent,
     ButtonProviders,
-    HomeComponent,
     CalendarioReservaComponent,
+    HomeComponent,
+    PostRegisterComponent
 
   ],
   imports: [
@@ -58,6 +62,12 @@ import { CalendarioReservaComponent } from './components/shared/calendario_reser
     MatToolbarModule,
     MatSelectModule,
     NgOptimizedImage,
+    MatCheckboxModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
     FormsModule
   ],
   providers: [

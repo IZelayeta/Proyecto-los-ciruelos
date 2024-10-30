@@ -5,6 +5,8 @@ import { LoginComponent } from './components/shared/login/login.component';
 import { CambiarContraseniaComponent } from './components/shared/login/cambiar_contrasenia/cambiar-contrasenia.component';
 import { RegisterComponent } from './components/shared/register/register.component';
 import { HomeComponent } from './components/home/home.component';
+import { PostRegisterComponent } from './components/shared/register/postregister/postregister.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -12,6 +14,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'cambiar-contrasenia', component: CambiarContraseniaComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'postregister', component: PostRegisterComponent},
   { path: 'mercadopago', component: MercadopagoComponent },
   { path: '**', redirectTo: 'home' }
 ];
