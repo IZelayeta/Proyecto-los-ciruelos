@@ -25,8 +25,6 @@ import { LoginComponent } from './components/shared/login/login.component';
 import { RegisterComponent } from './components/shared/register/register.component';
 import { ButtonProviders } from './components/shared/login/cambiar_contrasenia/button_provider/button-providers.component'
 import { HomeComponent } from './components/home/home.component';
-import { AsociarseComponent } from './components/shared/socios/asociarse/asociarse.component';
-import { DesasociarseComponent } from './components/shared/socios/desasociarse/desasociarse.component';
 import { MapsComponent } from './components/shared/maps/maps.component';
 
 // Firebase
@@ -47,10 +45,7 @@ import { CalendarioReservaComponent } from './components/shared/calendario_reser
     ButtonProviders,
     HomeComponent,
     MapsComponent,
-    AsociarseComponent,
-    DesasociarseComponent,
-    CalendarioReservaComponent,
-
+    CalendarioReservaComponent
   ],
   imports: [
     BrowserModule,
