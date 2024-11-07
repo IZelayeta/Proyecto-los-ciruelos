@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 // Components
 import { AppComponent } from './app.component';
@@ -24,8 +25,7 @@ import { LoginComponent } from './components/shared/login/login.component';
 import { RegisterComponent } from './components/shared/register/register.component';
 import { ButtonProviders } from './components/shared/login/cambiar_contrasenia/button_provider/button-providers.component'
 import { HomeComponent } from './components/home/home.component';
-import { AsociarseComponent } from './components/shared/socios/asociarse/asociarse.component';
-import { DesasociarseComponent } from './components/shared/socios/desasociarse/desasociarse.component';
+import { MapsComponent } from './components/shared/maps/maps.component';
 
 // Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -45,10 +45,8 @@ import { CalendarioReservaComponent } from './components/shared/calendario_reser
     ButtonProviders,
     AsociarseComponent,
     HomeComponent,
-    AsociarseComponent,
-    DesasociarseComponent,
-    CalendarioReservaComponent,
-
+    MapsComponent,
+    CalendarioReservaComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +54,7 @@ import { CalendarioReservaComponent } from './components/shared/calendario_reser
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    GoogleMapsModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
