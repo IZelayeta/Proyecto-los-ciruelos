@@ -1,0 +1,62 @@
+<button mat-icon-button class="go-back-button" (click)="goHome()">
+  <mat-icon>arrow_back</mat-icon>
+</button>
+
+<div class="form">
+  <div class="form__container">
+    <h1>Iniciar Sesión</h1>
+
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <div>
+        <mat-form-field appearance="fill" class="custom-field">
+          <mat-label>Correo electrónico</mat-label>
+          <input matInput formControlName="email" />
+          <mat-error class="error-text" *ngIf="form.get('email')?.hasError('required')">
+            Este campo es obligatorio
+          </mat-error>
+          <mat-error class="error-text" *ngIf="form.get('email')?.hasError('email')">
+            Ingresa una dirección de correo electrónico válida
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="password-field-container">
+        <mat-form-field appearance="fill" class="custom-field">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="hide ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+            [attr.aria-pressed]="!hide"
+            class="password-toggle-button"
+          >
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error class="error-text" *ngIf="form.get('password')?.hasError('required')">
+            Este campo es obligatorio
+          </mat-error>
+        </mat-form-field>
+
+        <div class="forgot-password">
+          <a routerLink="/cambiar-contrasenia" class="forgot-password-link">
+            Olvidé mi contraseña
+          </a>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <button mat-flat-button color="primary" type="submit">Iniciar Sesión</button>
+      </div>
+    </form>
+
+    <hr class="divider" />
+
+    <div class="text-center">
+      ¿Aun no tienes una cuenta? 
+      <div class="register">
+        <a routerLink="/register">registrarse </a>
+      </div>
+  </div>
+</div>
