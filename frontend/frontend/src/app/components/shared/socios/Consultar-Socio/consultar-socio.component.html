@@ -1,0 +1,82 @@
+<div class="encabezado">
+    <h2>Consultar Socios</h2>
+  
+    <div class="filtros">
+      <!-- Filtro por nombre -->
+      <input 
+        type="text" 
+        placeholder="Buscar socio por nombre..." 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearch()" 
+        class="input-busqueda"
+      />
+      
+      <!-- Filtro por email -->
+      <input 
+        type="email" 
+        placeholder="Buscar socio por correo..." 
+        [(ngModel)]="searchEmail" 
+        (input)="onSearch()" 
+        class="input-busqueda"
+      />
+  
+      <!-- Filtro por orden -->
+      <select [(ngModel)]="filtroOrden" (change)="onOrdenarCambio(filtroOrden)" class="select-filtro">
+        <option value="">Ordenar por</option>
+        <option value="nombre">Nombre</option>
+        <option value="fecha">Fecha de Asociación</option>
+      </select>
+  
+      <!-- Filtro por profesor -->
+      <select [(ngModel)]="filtroProfesor" (change)="onFiltrarProfesorCambio(filtroProfesor)" class="select-filtro">
+        <option value="">Filtrar por Profesor</option>
+        <option value="Profesor 1">Profesor 1</option>
+        <option value="Profesor 2">Profesor 2</option>
+      </select>
+  
+      <!-- Botón de limpiar filtros -->
+      <button (click)="eliminarFiltros()" class="btn-limpiar">Limpiar Filtros</button>
+    </div>
+  
+    <div class="tabla-contenedor">
+      <table class="tabla-socios">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Fecha de Asociación</th>
+            <th>Profesor</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let socio of sociosFiltrados">
+            <td>{{ socio.id }}</td>
+            <td>{{ socio.nombre }}</td>
+            <td>{{ socio.email }}</td>
+            <td>{{ socio.fechaAsociacion | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ socio.profesor }}</td>
+            <td>
+              <button (click)="verDetalles(socio)" class="btn-detalles">Ver Detalles</button>
+              <button (click)="eliminarSocio(socio.id)" class="btn-eliminar">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Modal -->
+    <div class="modal" *ngIf="mostrarModal">
+      <div class="modal-contenido">
+        <span class="cerrar" (click)="cerrarModal()">&times;</span>
+        <h2>Detalles del Socio</h2>
+        <p><strong>Nombre:</strong> {{ socioSeleccionado?.nombre }}</p>
+        <p><strong>Email:</strong> {{ socioSeleccionado?.email }}</p>
+        <p><strong>Fecha de Asociación:</strong> {{ socioSeleccionado?.fechaAsociacion | date: 'dd/MM/yyyy' }}</p>
+        <p><strong>Profesor:</strong> {{ socioSeleccionado?.profesor }}</p>
+      </div>
+    </div>
+  
+  </div>
+  

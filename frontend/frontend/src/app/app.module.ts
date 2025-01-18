@@ -26,6 +26,7 @@ import { ButtonProviders } from './components/shared/login/cambiar_contrasenia/b
 import { HomeComponent } from './components/home/home.component';
 import { AsociarseComponent } from './components/shared/socios/asociarse/asociarse.component';
 import { DesasociarseComponent } from './components/shared/socios/desasociarse/desasociarse.component';
+import { ConsultarSocioComponent } from './components/shared/socios/Consultar-Socio/consultar-socio.component';
 
 // Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -47,6 +48,7 @@ import { CalendarioReservaComponent } from './components/shared/calendario_reser
     HomeComponent,
     AsociarseComponent,
     DesasociarseComponent,
+    ConsultarSocioComponent,
     CalendarioReservaComponent,
 
   ],

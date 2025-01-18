@@ -7,6 +7,7 @@ import { RegisterComponent } from './components/shared/register/register.compone
 import { HomeComponent } from './components/home/home.component';
 import { AsociarseComponent } from './components/shared/socios/asociarse/asociarse.component';
 import { DesasociarseComponent } from './components/shared/socios/desasociarse/desasociarse.component';
+import { ConsultarSocioComponent } from './components/shared/socios/Consultar-Socio/consultar-socio.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'mercadopago', component: MercadopagoComponent },
   { path: 'asociarse', component: AsociarseComponent }, 
   { path: 'desasociarse', component: DesasociarseComponent },
+  { path: 'consultar-socio', component: ConsultarSocioComponent },
   { path: '**', redirectTo: 'home' }
 ];
 
