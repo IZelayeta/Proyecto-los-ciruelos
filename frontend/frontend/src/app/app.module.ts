@@ -32,8 +32,8 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { CalendarioReservaComponent } from './components/shared/calendario_reserva/calendario_reserva.component';
-
-
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
+import { NavbarService } from './services/navbar.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +47,7 @@ import { CalendarioReservaComponent } from './components/shared/calendario_reser
     HomeComponent,
     AsociarseComponent,
     DesasociarseComponent,
+    NavbarComponent,
     CalendarioReservaComponent,
 
   ],

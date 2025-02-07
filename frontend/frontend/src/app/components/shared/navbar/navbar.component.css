@@ -1,0 +1,109 @@
+/* Estilos generales */
+.navbar {
+    background: linear-gradient(135deg, #2c6b2f, #4b9e68); /* Verde más suave */
+    padding: 15px 30px;
+    display: flex;
+    justify-content: center; /* Centrado */
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+    border-radius: 10px;
+}
+
+.navbar-logo {
+    width: 50px;  /* Ajusta el tamaño del logo */
+    height: auto;
+    margin-right: 20px;  /* Espacio entre el logo y el contenido */
+}
+
+/* Estilos para los enlaces y botones */
+.navbar a, 
+.navbar button {
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;  /* Tipografía más moderna */
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+/* Efecto hover */
+.navbar a:hover,
+.navbar button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);  /* Efecto de elevación */
+}
+
+/* Contenedor de los enlaces */
+.navbar__container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Botón de cerrar sesión */
+.btn-logout {
+    background-color: #dc3545;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+    transform: translateY(-3px);  /* Efecto de elevación */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar__container {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+/* Efecto de desvanecimiento en el navbar */
+.navbar__container a, 
+.navbar__container button {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards;
+}
+
+.navbar__container a:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.navbar__container a:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.navbar__container a:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.navbar__container a:nth-child(4) {
+    animation-delay: 0.8s;
+}
+
+.navbar__container button {
+    animation-delay: 1s;
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
