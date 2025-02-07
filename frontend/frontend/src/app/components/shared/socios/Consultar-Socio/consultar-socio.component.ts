@@ -1,22 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../../services/auth.service';
 
-// Interfaz para definir la estructura de socio
 interface Socio {
   id: number;
   nombre: string;
-  email: string; // Campo de correo electrónico añadido
+  email: string;
   fechaAsociacion: Date;
-  profesor: string;
-}
-
-// Interfaz para definir la estructura de jugador
-interface Jugador {
-  id: number;
-  nombre: string;
+  rol: string;
+  categoria: string | null;
+  fotoUrl: string;
+  asociado: boolean; 
 }
 
 @Component({
@@ -26,96 +21,118 @@ interface Jugador {
 })
 export class ConsultarSocioComponent implements OnInit {
 
-  // Datos de ejemplo de socios, ahora con correo electrónico
-  socios: Socio[] = [
-    { id: 1, nombre: 'Juan Perez', email: 'juan.perez@example.com', fechaAsociacion: new Date(2023, 5, 1), profesor: 'Profesor 1' },
-    { id: 2, nombre: 'Ana Gómez', email: 'ana.gomez@example.com', fechaAsociacion: new Date(2022, 3, 15), profesor: 'Profesor 2' },
-    { id: 3, nombre: 'Carlos López', email: 'carlos.lopez@example.com', fechaAsociacion: new Date(2021, 7, 10), profesor: 'Profesor 1' },
-  ];
-
-  sociosFiltrados: Socio[] = [...this.socios]; // Inicializa con todos los socios
+  socios: Socio[] = [];
+  sociosFiltrados: Socio[] = [];
+  sociosNoAsociados: Socio[] = [];  
   searchTerm: string = '';
-  searchEmail: string = ''; // Nueva propiedad para buscar por email
+  searchEmail: string = '';
+  searchApellido: string = ''; 
   filtroOrden: string = '';
-  filtroProfesor: string = '';
+  filtroRol: string = '';  
   mostrarModal: boolean = false;
+  mostrarModalAsociar: boolean = false;
   socioSeleccionado: Socio | null = null;
 
   constructor(
     private router: Router,
-    private fb: FormBuilder,
     private http: HttpClient,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.filtrarYOrdenar();
+    this.cargarSocios();
   }
 
-  // Filtra y ordena la lista de socios
-  filtrarYOrdenar(): void {
-    let filtrados = this.socios.filter(socio =>
-      socio.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      socio.email.toLowerCase().includes(this.searchEmail.toLowerCase()) // Filtrado por email
+  cargarSocios(): void {
+
+    this.http.get<Socio[]>('ruta-del-backend/socios').subscribe(data => {
+      this.socios = data;
+      this.sociosNoAsociados = data.filter(socio => !socio.asociado); 
+      this.actualizarLista();
+    });
+  }
+
+  actualizarLista(): void {
+    this.sociosFiltrados = this.socios.filter(socio =>
+      (this.searchTerm ? socio.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) : true) &&
+      (this.searchEmail ? socio.email.toLowerCase().includes(this.searchEmail.toLowerCase()) : true) &&
+      (this.searchApellido ? socio.nombre.split(' ')[1]?.toLowerCase().includes(this.searchApellido.toLowerCase()) : true) &&  // Filtro por apellido
+      (this.filtroRol ? socio.rol.toLowerCase() === this.filtroRol.toLowerCase() : true)
     );
 
-    if (this.filtroProfesor) {
-      filtrados = filtrados.filter(socio => socio.profesor === this.filtroProfesor);
+    if (this.filtroOrden) {
+      this.sociosFiltrados.sort((a, b) =>
+        this.filtroOrden === 'nombre'
+          ? a.nombre.localeCompare(b.nombre)
+          : a.fechaAsociacion.getTime() - b.fechaAsociacion.getTime()
+      );
     }
-
-    switch (this.filtroOrden) {
-      case 'nombre':
-        filtrados.sort((a, b) => a.nombre.localeCompare(b.nombre));
-        break;
-      case 'fecha':
-        filtrados.sort((a, b) => a.fechaAsociacion.getTime() - b.fechaAsociacion.getTime());
-        break;
-    }
-
-    this.sociosFiltrados = filtrados;
   }
 
-  // Maneja el evento de búsqueda
-  onSearch() {
-    this.filtrarYOrdenar(); // Se llama a la función de filtrado y ordenación
+  onSearch(): void {
+    this.actualizarLista();
   }
 
-  // Cambia el orden de filtrado
   onOrdenarCambio(filtro: string): void {
     this.filtroOrden = filtro;
-    this.filtrarYOrdenar();
+    this.actualizarLista();
   }
 
-  // Filtra por profesor
-  onFiltrarProfesorCambio(profesor: string): void {
-    this.filtroProfesor = profesor;
-    this.filtrarYOrdenar();
+  onRolCambio(filtro: string): void {
+    this.filtroRol = filtro;
+    this.actualizarLista();
   }
 
-  // Elimina filtros y muestra la lista completa
   eliminarFiltros(): void {
     this.searchTerm = '';
-    this.searchEmail = ''; // Limpiar búsqueda por email
+    this.searchEmail = '';
+    this.searchApellido = '';
     this.filtroOrden = '';
-    this.filtroProfesor = '';
-    this.filtrarYOrdenar();
+    this.filtroRol = '';
+    this.actualizarLista();
   }
 
-  // Muestra los detalles del socio seleccionado
-  verDetalles(socio: Socio): void {
-    this.socioSeleccionado = socio;
-    this.mostrarModal = true;
-  }
-
-  // Cierra el modal de detalles
   cerrarModal(): void {
     this.mostrarModal = false;
     this.socioSeleccionado = null;
   }
 
-  // Elimina un socio por ID y actualiza la tabla
+  confirmarEliminacion(id: number): void {
+    if (confirm('¿Estás seguro de que deseas eliminar este socio?')) {
+      this.eliminarSocio(id);
+    }
+  }
+
   eliminarSocio(id: number): void {
     this.socios = this.socios.filter(socio => socio.id !== id);
-    this.filtrarYOrdenar();
+    this.sociosNoAsociados = this.sociosNoAsociados.filter(socio => socio.id !== id); 
+    this.actualizarLista();
+  }
+
+  asociarNuevo(): void {
+    this.mostrarModalAsociar = true;
+  }
+
+  asociarSocio(socio: Socio): void {
+    socio.asociado = true;  
+    this.sociosNoAsociados = this.sociosNoAsociados.filter(s => s.id !== socio.id); 
+    
+    const linkPago = `https://www.mercadopago.com.ar/pagar/${socio.id}`;
+    this.enviarCorreo(socio.email, linkPago);
+    
+    alert(`Socio ${socio.nombre} ha sido asociado y se le envió un correo con el link de pago.`);
+    this.actualizarLista();
+  }
+
+  enviarCorreo(email: string, link: string): void {
+    const payload = { email, link };
+    this.http.post('ruta-del-backend/enviar-correo', payload).subscribe(
+      response => console.log('Correo enviado con éxito', response),
+      error => console.error('Error al enviar el correo', error)
+    );
+  }
+
+  cerrarModalAsociar(): void {
+    this.mostrarModalAsociar = false;
   }
 }
