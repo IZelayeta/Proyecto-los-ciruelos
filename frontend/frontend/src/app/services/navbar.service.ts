@@ -1,23 +1,20 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class NavbarService {
-  private userRole: string | null = null; 
-
   constructor() {}
 
   getUserRole(): string | null {
-    return this.userRole;
+    return localStorage.getItem('userRole');  // Obtiene el rol almacenado
   }
 
-  setUserRole(role: string): void {
-    this.userRole = role;
+  setUserRole(role: string) {
+    localStorage.setItem('userRole', role);  // Guarda el rol en el almacenamiento local
   }
 
-
-  logout(): void {
-    this.userRole = null;
+  logout() {
+    localStorage.removeItem('userRole');  // Elimina el rol al cerrar sesión
   }
 }

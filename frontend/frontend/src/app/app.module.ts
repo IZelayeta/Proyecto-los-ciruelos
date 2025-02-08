@@ -66,6 +66,7 @@ import { NavbarService } from './services/navbar.service';
     NgOptimizedImage,
     FormsModule
   ],
+  exports: [NavbarComponent],
   providers: [
     provideFirebaseApp(() => initializeApp({"projectId":"proyecto-los-ciruelos","appId":"1:458631280275:web:077d19f3d31ac919ca3f66","storageBucket":"proyecto-los-ciruelos.appspot.com","apiKey":"AIzaSyADexIDOi159hPk8yHrKvBrh8n8OeY5Cpo","authDomain":"proyecto-los-ciruelos.firebaseapp.com","messagingSenderId":"458631280275","measurementId":"G-K0V8KZ571Q"})),
     provideAuth(() => getAuth()),

@@ -46,7 +46,5 @@ export class RegisterComponent {
     return false;
   }
 
-  goBack(): void {
-    this.router.navigate(['/login']);
-  }
+
 }

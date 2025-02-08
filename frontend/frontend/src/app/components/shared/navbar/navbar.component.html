@@ -1,31 +1,29 @@
-
 <nav class="navbar">
   <div class="navbar__container">
-    <!-- Logo de la empresa -->
-    <img src="assets/images/logo.png" alt="Logo de la Empresa" class="navbar-logo">
 
-    <!-- 📌 MENÚ PARA VISITANTES -->
+    <div class="navbar-logo"></div>
+
     <ng-container *ngIf="!userRole">
-      <a routerLink="/">Home</a>
-      <a routerLink="/about">Sobre Nosotros</a>
-      <a routerLink="/register">Registrarse</a>
-      <a routerLink="/login">Iniciar Sesión</a>
-      <button routerLink="/asociarse">Asociarse</button>
+      <a routerLink="/" class="navbar-item">Home</a>
+      <a href="#" (click)="scrollToSection($event, 'sobre-nosotros')" class="navbar-item">Sobre Nosotros</a>
+      <a routerLink="/register" class="navbar-item">Registrarse</a>
+      <a routerLink="/login" class="navbar-item">Iniciar Sesión</a>
+      <button routerLink="/asociarse" class="navbar-item">Asociarse</button>
     </ng-container>
 
-    <!-- 📌 MENÚ PARA JUGADORES -->
+
     <ng-container *ngIf="userRole === 'jugador'">
-      <a routerLink="/mis-reservas">Mis Reservas</a>
-      <a routerLink="/perfil">Mi Perfil</a>
+      <a routerLink="/mis-reservas" class="navbar-item">Mis Reservas</a>
+      <a routerLink="/perfil" class="navbar-item">Mi Perfil</a>
     </ng-container>
 
-    <!-- 📌 MENÚ PARA ADMINISTRADORES -->
+    <!-- Menú para administradores -->
     <ng-container *ngIf="userRole === 'admin'">
-      <a routerLink="/gestionar-usuarios">Gestionar Usuarios</a>
-      <a routerLink="/estadisticas">Estadísticas</a>
+      <a routerLink="/gestionar-usuarios" class="navbar-item">Gestionar Usuarios</a>
+      <a routerLink="/perfil" class="navbar-item">Mi Perfil</a>
     </ng-container>
 
-    <!-- 📌 OPCIÓN PARA CERRAR SESIÓN -->
+    <!-- Botón de Cerrar Sesión -->
     <ng-container *ngIf="userRole">
       <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
     </ng-container>

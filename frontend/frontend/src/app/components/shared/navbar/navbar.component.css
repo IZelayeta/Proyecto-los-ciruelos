@@ -1,77 +1,116 @@
 /* Estilos generales */
+/* Estilos generales */
 .navbar {
-    background: linear-gradient(135deg, #2c6b2f, #4b9e68); /* Verde más suave */
-    padding: 15px 30px;
+    background: linear-gradient(135deg, #2c6b2f, #4b9e68); /* Colores personalizados */
+    padding: 8px 20px; /* Reducido para hacer la barra más fina */
     display: flex;
-    justify-content: center; /* Centrado */
+    justify-content: center; /* Centrado horizontal de los elementos */
     align-items: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    position: fixed;
+    width: 85%; /* Ancho aumentado al 85% para dejar un poco más de espacio */
+    max-width: 2000px; /* Ancho máximo */
+    top: 0;
+    left: 50%; /* Centrado horizontal */
+    transform: translateX(-50%); /* Asegura que la barra esté centrada */
+    z-index: 10;
+    transition: background-color 0.3s ease-in-out;
 }
 
+/* Efecto de cambio de color al pasar el mouse */
+.navbar:hover {
+    background: linear-gradient(135deg, #387f4e, #2c6b2f);
+}
+
+/* Espacio para el logo */
 .navbar-logo {
-    width: 50px;  /* Ajusta el tamaño del logo */
-    height: auto;
-    margin-right: 20px;  /* Espacio entre el logo y el contenido */
+    width: 100px;  /* Tamaño aumentado del logo */
+    height: 70px;  /* Asegura que la altura también esté ajustada */
+    background-image: url('../../../assets/images/Adobe\ Express\ -\ file.png'); /* Ruta del logo */
+    background-size: contain; /* Asegura que el logo mantenga sus proporciones */
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-right: 0; /* Eliminar el margen derecho para que se acerque más al borde */
+    margin-left: 20px; /* Añadir margen izquierdo para mover el logo a la izquierda */
 }
 
-/* Estilos para los enlaces y botones */
-.navbar a, 
+/* Estilo de los enlaces y botones */
+.navbar a,
 .navbar button {
     color: white;
     text-decoration: none;
-    padding: 12px 18px;
+    padding: 12px 20px;
     font-size: 18px;
-    font-family: 'Poppins', sans-serif;  /* Tipografía más moderna */
+    font-family: 'Poppins', sans-serif;
     border: none;
     background: none;
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 5px;
+    margin: 0 10px; /* Añadido margen para separar los elementos */
 }
 
-/* Efecto hover */
+/* Efecto al pasar el mouse sobre los enlaces y botones */
 .navbar a:hover,
 .navbar button:hover {
     background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);  /* Efecto de elevación */
+    transform: translateY(-3px);  
 }
 
-/* Contenedor de los enlaces */
+/* Contenedor de los elementos de la barra de navegación */
 .navbar__container {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 20px;  /* Espacio entre los elementos */
+    flex-grow: 1; /* Asegura que los elementos ocupen todo el espacio disponible */
+    justify-content: center; /* Centrado de los elementos dentro del contenedor */
 }
 
-/* Botón de cerrar sesión */
+/* Estilo para el botón de Cerrar Sesión */
 .btn-logout {
     background-color: #dc3545;
     padding: 10px 15px;
     border-radius: 5px;
     font-weight: bold;
     font-size: 16px;
+    text-transform: uppercase; /* Para mayor modernidad */
 }
 
+/* Efecto al pasar el mouse sobre el botón de cerrar sesión */
 .btn-logout:hover {
     background-color: #c82333;
-    transform: translateY(-3px);  /* Efecto de elevación */
+    transform: translateY(-3px);  
 }
 
-/* Responsive */
+/* Estilos responsivos */
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
         align-items: center;
+        padding: 10px;
+        width: 80%; /* En pantallas pequeñas, el ancho será el 80% */
+        left: 10%; /* Para centrar la barra en pantallas más pequeñas */
+        transform: translateX(0); /* Quita el desplazamiento en pantallas pequeñas */
     }
 
     .navbar__container {
         flex-direction: column;
         gap: 15px;
     }
+
+    .navbar a, 
+    .navbar button {
+        font-size: 16px; /* Reducido el tamaño de fuente para pantallas pequeñas */
+    }
+
+    .navbar-logo {
+        width: 80px;  /* Reducido un poco el tamaño del logo en pantallas pequeñas */
+        height: 80px;
+    }
 }
 
-/* Efecto de desvanecimiento en el navbar */
+/* Animación de entrada de los elementos */
 .navbar__container a, 
 .navbar__container button {
     opacity: 0;
@@ -98,7 +137,6 @@
     animation-delay: 1s;
 }
 
-/* Animación de desvanecimiento */
 @keyframes fadeIn {
     0% {
         opacity: 0;
