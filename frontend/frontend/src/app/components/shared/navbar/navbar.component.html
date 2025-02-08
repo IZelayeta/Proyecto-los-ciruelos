@@ -1,0 +1,31 @@
+<nav class="navbar">
+  <div class="navbar__container">
+
+    <div class="navbar-logo"></div>
+
+    <ng-container *ngIf="!userRole">
+      <a routerLink="/" class="navbar-item">Home</a>
+      <a href="#" (click)="scrollToSection($event, 'sobre-nosotros')" class="navbar-item">Sobre Nosotros</a>
+      <a routerLink="/register" class="navbar-item">Registrarse</a>
+      <a routerLink="/login" class="navbar-item">Iniciar Sesión</a>
+      <button routerLink="/asociarse" class="navbar-item">Asociarse</button>
+    </ng-container>
+
+
+    <ng-container *ngIf="userRole === 'jugador'">
+      <a routerLink="/mis-reservas" class="navbar-item">Mis Reservas</a>
+      <a routerLink="/perfil" class="navbar-item">Mi Perfil</a>
+    </ng-container>
+
+    <!-- Menú para administradores -->
+    <ng-container *ngIf="userRole === 'admin'">
+      <a routerLink="/gestionar-usuarios" class="navbar-item">Gestionar Usuarios</a>
+      <a routerLink="/perfil" class="navbar-item">Mi Perfil</a>
+    </ng-container>
+
+    <!-- Botón de Cerrar Sesión -->
+    <ng-container *ngIf="userRole">
+      <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+    </ng-container>
+  </div>
+</nav>
